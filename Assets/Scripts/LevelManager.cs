@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1.5f);
 
-        if (count < 5)
+        if (count < 2)
         {
             FriesSpawner();
         }
