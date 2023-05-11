@@ -9,8 +9,8 @@ public class Jump : MonoBehaviour
     [SerializeField] private float jumpPower; //sadece scriptin oldu�u yerden eri�ilebilmesini sa�l�yor inspectada de�i�tirilebilir hale getiriirli
     [SerializeField] SoundManager soundManager;
     [SerializeField] float radius;
-    [SerializeField] float gravityScale;
-    [SerializeField] float fallGravityScale;
+    public static float gravityScale = 1;
+    public static float fallGravityScale = 15;
     [SerializeField] Transform feetPos;
     [SerializeField] LayerMask layerMask;
     // Start is called before the first frame update
@@ -23,6 +23,7 @@ public class Jump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         Gravity();
         JumpAction();
     }
@@ -46,6 +47,10 @@ public class Jump : MonoBehaviour
 
     void JumpAction()
     {
+        if (Movement.isDashing)
+        {
+            return;
+        }
         if (Input.GetButtonDown("Jump") && IsGrounded() && LevelManager.canMove)
         {
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);

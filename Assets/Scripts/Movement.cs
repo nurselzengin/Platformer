@@ -16,6 +16,14 @@ public class Movement : MonoBehaviour
     DelayScript delayScript;
     UiManager uiManager;
     PlayerHealth playerHealth;
+    [SerializeField] float horizontalMove;
+
+
+    public static bool canDash = true;
+    public static bool isDashing = false;
+    [SerializeField] float dashAmount;
+    [SerializeField] float dashCooldown;
+    [SerializeField] float dashTime;
     private void Awake()
     {
         levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
@@ -33,6 +41,10 @@ public class Movement : MonoBehaviour
 
     void MovementAction()
     {
+        if (isDashing)
+        {
+            return;
+        }
         if (LevelManager.canMove)
         {
 
@@ -71,6 +83,7 @@ public class Movement : MonoBehaviour
                 delayScript.StartDelayTime();
             }
             Destroy(gameObject);
+            Movement.Cancel();
             soundManager.DeathbyFall();
            
 
@@ -80,7 +93,35 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.LeftShift) && canDash && horizontalMove != 0) 
+        {
+            StartCoroutine(Dash());
+        }
+        horizontalMove = Input.GetAxis("Horizontal");
         MovementAction();
         PlayerDestroyer();
+    }
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        rb.gravityScale = 0;
+        Jump.fallGravityScale = 0;
+        rb.velocity = new Vector2(horizontalMove * dashAmount, 0);
+        yield return new WaitForSeconds(dashTime);
+        rb.gravityScale = 1; 
+        Jump.fallGravityScale = 15;
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        Debug.Log("You can dash again");
+        canDash = true;
+    }
+
+    public static void Cancel()
+    {
+        canDash = true;
+        isDashing = false;
+        Jump.fallGravityScale = 15;
     }
 }

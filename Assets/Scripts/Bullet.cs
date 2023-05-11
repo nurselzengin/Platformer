@@ -36,6 +36,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(collision.gameObject);
+            Movement.Cancel();
             health.Lives();
             Instantiate(playerParticle, transform.position, Quaternion.identity);
             Instantiate(playerHitParticle, transform.position, Quaternion.identity);

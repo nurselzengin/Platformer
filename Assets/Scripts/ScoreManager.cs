@@ -21,7 +21,8 @@ public class ScoreManager : MonoBehaviour
     }
     #endregion
     [SerializeField] TextMeshProUGUI scoreText;
-    
+    [SerializeField] TextMeshProUGUI highScoretext;
+
     public static int score = 0;
     public static int highScore  = 0;
     
@@ -39,5 +40,10 @@ public class ScoreManager : MonoBehaviour
     { 
         score += value;
         scoreText.text = "Score : " + score.ToString();
+
+        if(highScore < score)
+        {
+            PlayerPrefs.SetInt("High Score", score);
+        }
     }
 }

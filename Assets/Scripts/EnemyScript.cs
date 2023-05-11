@@ -57,7 +57,9 @@ public class EnemyScript : MonoBehaviour
         {
             Debug.Log("Game Over");
             Destroy(collision.gameObject);
+            Movement.Cancel();
             playerHealth.Lives();
+
             
             if (delayScript.delayTime == true)
             {

@@ -126,6 +126,10 @@ MonoBehaviour:
   moveSpeed: 10
   gameoverText: {fileID: 0}
   playerYBoundry: -10
+  horizontalMove: 0
+  dashAmount: 60
+  dashCooldown: 1
+  dashTime: 0.2
 --- !u!114 &7627799211812205911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,11 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7859f20e21be23a4f9541ae932260fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 15
+  jumpPower: 10
   soundManager: {fileID: 0}
   radius: 0.3
-  gravityScale: 2
-  fallGravityScale: 10
   feetPos: {fileID: 7627799213180131931}
   layerMask:
     serializedVersion: 2
