@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip attackEnemySound;
     [SerializeField] AudioClip winSound;
     [SerializeField] AudioClip runDoorSound;
+    [SerializeField] public AudioClip[] sounds;
 
 
     public static SoundManager instance;

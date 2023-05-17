@@ -13,14 +13,20 @@ public class Jump : MonoBehaviour
     public static float fallGravityScale = 15;
     [SerializeField] Transform feetPos;
     [SerializeField] LayerMask layerMask;
-    // Start is called before the first frame update
+    [SerializeField] float startJump;
+    float jumpTime;
+    bool isJumping;
+    bool doubleJump;
+
+
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
        
@@ -54,8 +60,32 @@ public class Jump : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded() && LevelManager.canMove)
         {
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            isJumping = true;
+            jumpTime = startJump;
             soundManager.JumpSound();
         }
-        
+        else if (Input.GetButtonDown("Jump") && doubleJump)
+        {
+            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            doubleJump = false;
+        }
+
+        if (Input.GetButton("Jump") && isJumping ) 
+        { 
+            if(jumpTime > 0)
+            {
+                rb.AddForce(Vector2.up * 2f, ForceMode2D.Force);
+                jumpTime -= Time.deltaTime;
+            }
+            else 
+            { 
+                isJumping = false;
+            }
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            isJumping = false;
+        }
     }
 }

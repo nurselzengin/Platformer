@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerBoundry : MonoBehaviour
 {
-    [SerializeField] float horizontalBoundry;
+    [SerializeField] float horizontalBoundry ;
+    float xMove;
     void Update()
     {
-        if (transform.position.x < -horizontalBoundry) 
-        { 
-            transform.position = new Vector3(-horizontalBoundry, transform.position.y, transform.position.z);
-        }
-        if (transform.position.x > horizontalBoundry)
-        {
-            transform.position = new Vector3(horizontalBoundry, transform.position.y, transform.position.z);
-        }
-
-
-
+        //if (transform.position.x < -horizontalBoundry) 
+        //{ 
+        //    transform.position = new Vector3(-horizontalBoundry, transform.position.y, transform.position.z);
+        //}
+        //if (transform.position.x > horizontalBoundry)
+        //{
+        //    transform.position = new Vector3(horizontalBoundry, transform.position.y, transform.position.z);
+        //}
+        //alternatif yöntem aþaðýda...
+        xMove = Mathf.Clamp(transform.position.x, -horizontalBoundry, horizontalBoundry);
+        transform.position = new Vector2(xMove, transform.position.y);
     }
 }

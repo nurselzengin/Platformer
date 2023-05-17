@@ -48,3 +48,6 @@ TagManager:
   - name: Turret
     uniqueID: 1020713365
     locked: 0
+  - name: Player
+    uniqueID: 3008134711
+    locked: 0

@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private TrailRenderer tr;
 
     public float moveSpeed;
     [SerializeField] GameObject gameoverText;
@@ -24,6 +25,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float dashAmount;
     [SerializeField] float dashCooldown;
     [SerializeField] float dashTime;
+    public static bool dashed;
     private void Awake()
     {
         levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
@@ -36,6 +38,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //inspector penceresinde player�n rigidboysini al�yor oyunu �al��t�r�nca
+        tr = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -106,14 +109,18 @@ public class Movement : MonoBehaviour
     {
         canDash = false;
         isDashing = true;
+        dashed = true;
         rb.gravityScale = 0;
         Jump.fallGravityScale = 0;
+        tr.emitting = true;
         rb.velocity = new Vector2(horizontalMove * dashAmount, 0);
         yield return new WaitForSeconds(dashTime);
         rb.gravityScale = 1; 
         Jump.fallGravityScale = 15;
         isDashing = false;
+        tr.emitting = false;
         yield return new WaitForSeconds(dashCooldown);
+        dashed = false;
         Debug.Log("You can dash again");
         canDash = true;
     }
@@ -122,6 +129,7 @@ public class Movement : MonoBehaviour
     {
         canDash = true;
         isDashing = false;
+        dashed = false;
         Jump.fallGravityScale = 15;
     }
 }
