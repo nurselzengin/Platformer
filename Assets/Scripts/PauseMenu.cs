@@ -39,7 +39,11 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
         LevelManager.canMove = true;
-        ScoreManager.score = 0;    }
+        ScoreManager.score = 0;   
+        SoundManager.instance.PlayWithIndex(0);
+        
+    
+    }
 
     public void Pause()
     {

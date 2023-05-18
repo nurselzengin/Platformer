@@ -6,13 +6,11 @@ using UnityEngine;
 public class GroundScript : MonoBehaviour
 {
     private SoundManager soundManager;
-    // Start is called before the first frame update
     void Start()
     {
        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         

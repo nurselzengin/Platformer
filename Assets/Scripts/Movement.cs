@@ -34,7 +34,6 @@ public class Movement : MonoBehaviour
         uiManager = GameObject.Find("UI Manager").GetComponent<UiManager>();
         playerHealth = GameObject.Find("Level Manager").GetComponent<PlayerHealth>();
     }
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //inspector penceresinde player�n rigidboysini al�yor oyunu �al��t�r�nca
@@ -124,6 +123,7 @@ public class Movement : MonoBehaviour
         Debug.Log("You can dash again");
         canDash = true;
     }
+
 
     public static void Cancel()
     {

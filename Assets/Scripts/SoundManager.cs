@@ -14,9 +14,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip runDoorSound;
     [SerializeField] public AudioClip[] sounds;
 
-
+    //Singleton ile sahnede tek bulunan objeler tanýmlanmýþ olur. GetComponent ile tanýmlama bu durumda kullanýlmaz.
+    #region Singleton
     public static SoundManager instance;
-
+    
     private void Awake()
     {
         if (instance != null)
@@ -29,18 +30,18 @@ public class SoundManager : MonoBehaviour
             instance = this;
         }
     }
+    #endregion
+
+    //index ile ses ekleme fonsiyonu
+    public void PlayWithIndex(int index)
+    {
+        audioSource.PlayOneShot(sounds[index]);
+    }
 
     
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void JumpSound()

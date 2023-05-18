@@ -31,6 +31,8 @@ public class CountDown : MonoBehaviour
             coolDown.fillAmount = 0;
             duration = 2.5f;
         }
+
+
     }
 
 }

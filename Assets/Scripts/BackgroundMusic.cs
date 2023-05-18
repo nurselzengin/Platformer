@@ -35,12 +35,12 @@ public class BackgroundMusic : MonoBehaviour
 
         {
             audioSource.mute = true;
-            Debug.Log("Mute Music");
+            
         }
         else
         {
             audioSource.mute = false;
-            Debug.Log("Play Music");
+            
         }
     }
 }

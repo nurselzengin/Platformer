@@ -6,14 +6,30 @@ public class DelayScript : MonoBehaviour
 {
     LevelManager levelManager;
     [SerializeField] float delayTimer;
-    public bool delayTime = true;   
-    // Start is called before the first frame update
+    public bool delayTime = true;
+
+    #region Singleton
+    public static DelayScript instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            Debug.Log("Sahnede fazladan ses var");
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+    
     void Start()
     {
         levelManager = GetComponent<LevelManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
 

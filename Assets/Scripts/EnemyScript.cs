@@ -65,8 +65,6 @@ public class EnemyScript : MonoBehaviour
             {
                 delayScript.StartDelayTime();
             }
-            
-            
             soundManager.DeathbyEnemySound();
             //uiManager.GetComponent<Canvas>().enabled = true;
             //levelManager.RespawnPlayer();//enemy �arpt���nda da tekrar player olu�tur

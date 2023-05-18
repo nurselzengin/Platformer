@@ -51,6 +51,7 @@ public class Jump : MonoBehaviour
         }
     }
 
+
     void JumpAction()
     {
         if (Movement.isDashing)
@@ -62,7 +63,8 @@ public class Jump : MonoBehaviour
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
             jumpTime = startJump;
-            soundManager.JumpSound();
+            //soundManager.JumpSound();
+            SoundManager.instance.PlayWithIndex(8);
         }
         else if (Input.GetButtonDown("Jump") && doubleJump)
         {

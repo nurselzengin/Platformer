@@ -26,11 +26,14 @@ public class UiManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         canvas.enabled = false;
         ScoreManager.score = 0;
+        LevelManager.knifeStop = false;
     }
 
     public void MenuButton()
     {
         SceneManager.LoadScene(0);
         ScoreManager.score = 0;
+        LevelManager.knifeStop = false;
+
     }
 }

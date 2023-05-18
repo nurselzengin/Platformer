@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    
     //public static LevelManager instance;//singleton pattern kullan�m� respawnplayer i�in
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform playerSpawnPos;
@@ -11,13 +12,25 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject door;
     [SerializeField] GameObject RunText;
 
+    [Header("Knife Spawner")]
+    [SerializeField] GameObject knifePrefab;
+    [SerializeField] Vector2 spawnValues;
+    [SerializeField] float startSpawn;
+    [SerializeField] float minSpawn;
+    [SerializeField] float maxSpawn;
+    [SerializeField] float startWait;
+    public static bool knifeStop;
+    private float xSpawn = 10f;
+
+
+
+
     private SoundManager soundManager;
 
     public int count;
     public bool canWin;
     public static bool canMove=true;
     
-    // Start is called before the first frame update
     private void Awake()
     {
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
@@ -27,8 +40,12 @@ public class LevelManager : MonoBehaviour
     {
         //FriesSpawner();
         StartCoroutine(SpawnFries());
+        StartCoroutine(CreateKnife());
     }
-    // Update is called once per frame
+    private void Update()
+    {
+        startSpawn = Random.Range(minSpawn, maxSpawn);
+    }
     void PlayerSpawner()
     {
         Instantiate(playerPrefab, playerSpawnPos.position, Quaternion.identity); //konumunu yani 0,0,0 pozisyonda playerim� olu�tur.
@@ -48,6 +65,7 @@ public class LevelManager : MonoBehaviour
         { 
             canWin = true;
             door.SetActive(true);
+            knifeStop = true;
             RunText.SetActive(true);
             soundManager.RunDoorSound();
         }
@@ -62,5 +80,18 @@ public class LevelManager : MonoBehaviour
     public void FriesSpawnerCourotine()
     {
         StartCoroutine(SpawnFries());
+    }
+    private IEnumerator CreateKnife() 
+    {
+        yield return new WaitForSeconds(startWait);
+
+        while (!knifeStop)
+        {
+            Vector2 spawnPos = new Vector2(xSpawn, Random.Range(-spawnValues.y, spawnValues.y));
+            Instantiate(knifePrefab, spawnPos, Quaternion.identity);
+            SoundManager.instance.PlayWithIndex(6);
+            yield return new WaitForSeconds(startSpawn);
+        }
+    
     }
 }
