@@ -22,19 +22,19 @@ public class LevelManager : MonoBehaviour
     public static bool knifeStop;
     private float xSpawn = 10f;
 
-
-
-
-    private SoundManager soundManager;
-
+    [Header("Bool")]
+  
     public int count;
     public bool canWin;
     public static bool canMove=true;
-    
+
+    private SoundManager soundManager;
+
     private void Awake()
     {
-        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         PlayerSpawner();
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        
     }
     private void Start()
     {
@@ -87,7 +87,7 @@ public class LevelManager : MonoBehaviour
 
         while (!knifeStop)
         {
-            Vector2 spawnPos = new Vector2(xSpawn, Random.Range(-spawnValues.y, spawnValues.y));
+            Vector2 spawnPos = new Vector2(xSpawn, Random.Range(-spawnValues.y+1, spawnValues.y+1));
             Instantiate(knifePrefab, spawnPos, Quaternion.identity);
             SoundManager.instance.PlayWithIndex(6);
             yield return new WaitForSeconds(startSpawn);

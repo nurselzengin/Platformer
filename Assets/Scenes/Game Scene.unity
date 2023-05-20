@@ -4002,6 +4002,12 @@ MonoBehaviour:
   friesPrefab: {fileID: 349363649580142665, guid: a59bbd5020a63f14a930c67d490dc9b3, type: 3}
   door: {fileID: 1202067909}
   RunText: {fileID: 1456666186}
+  knifePrefab: {fileID: 5311412906918411749, guid: f0473ba144c46a04a9e56cc10a350735, type: 3}
+  spawnValues: {x: 2, y: 1}
+  startSpawn: 0
+  minSpawn: 1.5
+  maxSpawn: 4
+  startWait: 2
   count: 0
   canWin: 0
 --- !u!4 &1414251311
@@ -4012,7 +4018,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414251309}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.05, y: 4.11, z: 0}
+  m_LocalPosition: {x: 6.05, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4927,6 +4933,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cb954980cb5203849aae2b81f8716fb9, type: 3}
   - {fileID: 8300000, guid: 8e63832e75fdddb4fb323976f4c16a1b, type: 3}
   - {fileID: 8300000, guid: f14956306a237604394747b3a7ed5f66, type: 3}
+  - {fileID: 8300000, guid: 55e00e420f09ef245a9ad05fe607e25a, type: 3}
 --- !u!82 &1707223788
 AudioSource:
   m_ObjectHideFlags: 0
