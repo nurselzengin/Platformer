@@ -17,7 +17,7 @@ public class LoadData : MonoBehaviour
         }
         else
         {
-            loadText.text = "There is no registered key ";
+            loadText.text = "There is no registered key.";
         }
     }
     public void Delete()

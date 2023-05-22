@@ -8,20 +8,11 @@ public class SaveData : MonoBehaviour
 {
     [SerializeField] TMP_InputField textBox;
     [SerializeField] TextMeshProUGUI InfoText;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     public void Save()
     {
         PlayerPrefs.SetString("Name", textBox.text);
-        InfoText.text = "Your data saved";
+        InfoText.text = "Your data saved.";
     }
 
     public void Next()

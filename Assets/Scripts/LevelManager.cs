@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator SpawnFries()
     {
-        if (count == 2)
+        if (count == 5)
         { 
             canWin = true;
             door.SetActive(true);
@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1.5f);
 
-        if (count < 2)
+        if (count < 5)
         {
             FriesSpawner();
         }
@@ -92,6 +92,7 @@ public class LevelManager : MonoBehaviour
             SoundManager.instance.PlayWithIndex(6);
             yield return new WaitForSeconds(startSpawn);
         }
+
     
     }
 }
