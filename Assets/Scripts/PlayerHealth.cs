@@ -32,11 +32,6 @@ public class PlayerHealth : MonoBehaviour
         delayScript = GameObject.Find("Level Manager").GetComponent<DelayScript>();
     }
 
-    
-    void Update()
-    {
-        
-    }
     public void Lives()
     {
         playerLifeCount--;

@@ -5,26 +5,32 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
-    [SerializeField] float tursnSpeed;
+    [SerializeField] float turnSpeed;
     [SerializeField] float moveSpeed;
     [SerializeField] ParticleSystem particle;
     [SerializeField] float destroyLimit;
-
     private Rigidbody2D rb;
+
+    [Header("Move Speed")]
+    [SerializeField] float easySpeed;
+    [SerializeField] float normalSpeed;
+    [SerializeField] float hardSpeed;
 
     void Start()
     {
+        moveSpeed = HardenedScript.instance.HardenedLevel(moveSpeed, easySpeed, normalSpeed, hardSpeed);
         rb=GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
+
         if (transform.position.x < destroyLimit)
             Destroy(gameObject);
     }
     private void FixedUpdate()
     {
-        transform.Rotate(-transform.right * tursnSpeed);
+        transform.Rotate(-transform.right * turnSpeed);
         rb.velocity = Vector2.left * moveSpeed;
     }
 
@@ -38,10 +44,15 @@ public class Knife : MonoBehaviour
             Instantiate(particle, collision.gameObject.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             PlayerHealth.instance.Lives();
-            DelayScript.instance.StartDelayTime();
+            if (DelayScript.instance.delayTime)
+            {
+                DelayScript.instance.StartDelayTime();
+            }
             Movement.Cancel();
             Destroy(gameObject);
         }
 
     }
+
+
 }

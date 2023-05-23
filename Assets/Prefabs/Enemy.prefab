@@ -146,6 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a2fbe8c963fb04c943f33c28f3a94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAttackSpeed: 12
+  enemyAttackSpeed: 10
   xBoundry: -10
   yBoundry: -7

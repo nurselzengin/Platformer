@@ -28,19 +28,28 @@ public class LevelManager : MonoBehaviour
     public bool canWin;
     public static bool canMove=true;
 
+    [Header("Move Spawn")]
+    [SerializeField] float easySpawn;
+    [SerializeField] float normalSpawn;
+    [SerializeField] float hardSpawn;
+
     private SoundManager soundManager;
 
     private void Awake()
     {
-        PlayerSpawner();
-        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        PlayerSpawner();
+       
     }
     private void Start()
     {
+        
         //FriesSpawner();
         StartCoroutine(SpawnFries());
         StartCoroutine(CreateKnife());
+        maxSpawn = HardenedScript.instance.HardenedLevel(maxSpawn, easySpawn, normalSpawn, hardSpawn);
+        canMove = true;
     }
     private void Update()
     {
@@ -92,7 +101,6 @@ public class LevelManager : MonoBehaviour
             SoundManager.instance.PlayWithIndex(6);
             yield return new WaitForSeconds(startSpawn);
         }
-
-    
     }
+    
 }

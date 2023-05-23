@@ -13,11 +13,18 @@ public class Gun : MonoBehaviour
     private float nextFire;
     [SerializeField] float fireRate;
     [SerializeField] ParticleSystem muzzleEffect;
+    
+    [Header("Move Rate")]
+    [SerializeField] float easyRate;
+    [SerializeField] float normalRate;
+    [SerializeField] float hardRate;
 
 
 
-
-    // Update is called once per frame
+    private void Start()
+    {
+        fireRate = HardenedScript.instance.HardenedLevel(fireRate, easyRate, normalRate, hardRate);
+    }
     void Update()
     {
         GunDirection();
