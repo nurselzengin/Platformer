@@ -8,16 +8,15 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private TrailRenderer tr;
-
     public float moveSpeed;
     [SerializeField] GameObject gameoverText;
     [SerializeField] float playerYBoundry;
     LevelManager levelManager;
-    SoundManager soundManager;
     DelayScript delayScript;
     UiManager uiManager;
     PlayerHealth playerHealth;
-    [SerializeField] float horizontalMove;
+    private float horizontalMove;
+    [SerializeField] Animator anim;
 
 
     public static bool canDash = true;
@@ -29,16 +28,23 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
-        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         delayScript = GameObject.Find("Level Manager").GetComponent<DelayScript>();
         uiManager = GameObject.Find("UI Manager").GetComponent<UiManager>();
         playerHealth = GameObject.Find("Level Manager").GetComponent<PlayerHealth>();
+        anim = GetComponent<Animator>();
     }
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); //inspector penceresinde player�n rigidboysini al�yor oyunu �al��t�r�nca
+        Cancel();
+        rb = GetComponent<Rigidbody2D>(); 
         tr = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    void Update()
+    {
+        MovementAction();
+        PlayerDestroyer();
+        StartDash();
     }
 
     void MovementAction()
@@ -49,12 +55,10 @@ public class Movement : MonoBehaviour
         }
         if (LevelManager.canMove)
         {
-
-
-            float horizontalMove = Input.GetAxis("Horizontal");
+            horizontalMove = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontalMove * moveSpeed, rb.velocity.y);
-            //Debug.Log(horizontalMove);
             SpriteFlip(horizontalMove);
+            anim.SetFloat("Move", Mathf.Abs(horizontalMove));
         }
         
     }
@@ -63,7 +67,7 @@ public class Movement : MonoBehaviour
     {
         if (horizontalMove > 0)
         {
-            spriteRenderer.flipX = false; //sa�sol y�n� x ekseninde
+            spriteRenderer.flipX = false;
         }
         else if (horizontalMove < 0)
         {
@@ -74,8 +78,7 @@ public class Movement : MonoBehaviour
     void PlayerDestroyer()
     {
         if (transform.position.y < playerYBoundry)
-        {
-            
+        { 
             //uiManager.GetComponent<Canvas>().enabled = true;
             //restart butonu aktifleşmesin diye kapanır
             playerHealth.Lives();
@@ -86,24 +89,9 @@ public class Movement : MonoBehaviour
             }
             Destroy(gameObject);
             Movement.Cancel();
-            soundManager.DeathbyFall();
-           
-
+            SoundManager.instance.PlayWithIndex(3);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.LeftShift) && canDash && horizontalMove != 0) 
-        {
-            StartCoroutine(Dash());
-        }
-        horizontalMove = Input.GetAxis("Horizontal");
-        MovementAction();
-        PlayerDestroyer();
-    }
-
     IEnumerator Dash()
     {
         canDash = false;
@@ -114,13 +102,12 @@ public class Movement : MonoBehaviour
         tr.emitting = true;
         rb.velocity = new Vector2(horizontalMove * dashAmount, 0);
         yield return new WaitForSeconds(dashTime);
-        rb.gravityScale = 1; 
+        rb.gravityScale = 1;
         Jump.fallGravityScale = 15;
         isDashing = false;
         tr.emitting = false;
         yield return new WaitForSeconds(dashCooldown);
         dashed = false;
-        Debug.Log("You can dash again");
         canDash = true;
     }
 
@@ -131,5 +118,15 @@ public class Movement : MonoBehaviour
         isDashing = false;
         dashed = false;
         Jump.fallGravityScale = 15;
+    }
+
+    void StartDash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && horizontalMove != 0)
+        {
+            StartCoroutine(Dash());
+            SoundManager.instance.PlayWithIndex(14);
+        }
+
     }
 }

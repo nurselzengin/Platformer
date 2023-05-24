@@ -17,6 +17,7 @@ public class Jump : MonoBehaviour
     float jumpTime;
     bool isJumping;
     bool doubleJump;
+    [SerializeField] Animator anim;
 
 
     
@@ -24,6 +25,7 @@ public class Jump : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        anim = GetComponent<Animator>();
     }
 
   
@@ -33,12 +35,12 @@ public class Jump : MonoBehaviour
         Gravity();
         JumpAction();
     }
-    private bool IsGrounded() //dokunuyorsa true ya da false d�nd�recek dokunmazsa z�plamayacak //havada z�plmas�n� engelledik
+    private bool IsGrounded() 
     {
         return Physics2D.OverlapCircle(feetPos.position, radius, layerMask);
     }
     void Gravity()
-    {
+    {   //Alternatif yöntem...
         //Debug.Log("Rigidbody Velocity.Y" + rb.velocity.y);
         //Debug.Log("Rigidbody Velocity.X" + rb.velocity.x);
         if (rb.velocity.y >= 0)
@@ -63,7 +65,7 @@ public class Jump : MonoBehaviour
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
             jumpTime = startJump;
-            //soundManager.JumpSound();
+            anim.SetBool("Jump", true);
             SoundManager.instance.PlayWithIndex(8);
         }
         else if (Input.GetButtonDown("Jump") && doubleJump)
@@ -89,5 +91,11 @@ public class Jump : MonoBehaviour
         {
             isJumping = false;
         }
+
+        if (Mathf.Approximately(rb.velocity.y, 0) && anim.GetBool("Jump"))
+        {
+            anim.SetBool("Jump", false);
+        }
+        Gravity();
     }
 }

@@ -17,7 +17,7 @@ public class HardenedScript : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            Debug.Log("Sahnede birden fazla nesne var");
+            
         }
     }
     #endregion

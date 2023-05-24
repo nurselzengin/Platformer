@@ -14,7 +14,7 @@ public class Door : MonoBehaviour
         { 
             winPanel.SetActive(true);
             
-            SoundManager.instance.WinSound();
+            SoundManager.instance.PlayWithIndex(12);
             collision.gameObject.SetActive(false);
         }
     }

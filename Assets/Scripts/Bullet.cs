@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] ParticleSystem groundParticle;
     [SerializeField] ParticleSystem playerParticle;
     [SerializeField] ParticleSystem playerHitParticle;
+    [SerializeField] GameObject player;
    
     
     void Awake()
@@ -20,9 +21,17 @@ public class Bullet : MonoBehaviour
         delay = GameObject.Find("Level Manager").GetComponent<DelayScript>();
         health = GameObject.Find("Level Manager").GetComponent <PlayerHealth>();
     }
-
+    private void Update()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player == null)
+        {
+            Destroy(gameObject);
+        }
+    }
     private void FixedUpdate()
     {
+       
         rb.velocity = -transform.right * bulletSpeed;
     }
 

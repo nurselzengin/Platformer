@@ -19,7 +19,7 @@ public class BackgroundMusic : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            Debug.Log("Sahnede birden fazla Background Music var");
+            
         }
         DontDestroyOnLoad(gameObject);
 

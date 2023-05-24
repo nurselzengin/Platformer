@@ -5,13 +5,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioClip jumpSound;
-    [SerializeField] AudioClip landSound;
-    [SerializeField] AudioClip deathSound;
-    [SerializeField] AudioClip fallSound;
-    [SerializeField] AudioClip attackEnemySound;
-    [SerializeField] AudioClip winSound;
-    [SerializeField] AudioClip runDoorSound;
     [SerializeField] public AudioClip[] sounds;
 
     //Singleton ile sahnede tek bulunan objeler tanýmlanmýþ olur. GetComponent ile tanýmlama bu durumda kullanýlmaz.
@@ -23,7 +16,7 @@ public class SoundManager : MonoBehaviour
         if (instance != null)
         {
             Destroy(gameObject);
-            Debug.Log("Sahnede fazladan ses var");
+           
         }
         else
         {
@@ -32,62 +25,16 @@ public class SoundManager : MonoBehaviour
     }
     #endregion
 
-    //index ile ses ekleme fonsiyonu
-    public void PlayWithIndex(int index)
-    {
-        audioSource.PlayOneShot(sounds[index]);
-    }
-
     
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void JumpSound()
-    { 
-        audioSource.PlayOneShot(jumpSound);
-        Debug.Log("Jump");
-    }
-    public void LandSoundSound()
+    //index ile ses ekleme fonsiyonu
+    public void PlayWithIndex(int index)
     {
-        audioSource.PlayOneShot(landSound);
-        Debug.Log("Land");
-    }
-    public void DeathbyEnemySound()
-    {
-       
-            audioSource.PlayOneShot(deathSound);
-            Debug.Log("Death Music");
-        
-
-    }
-
-    public void DeathbyFall()
-    {
-        
-            audioSource.PlayOneShot(fallSound);
-            Debug.Log("Fall Music");
-        
-
-    }
-    public void AttackEnemySound()
-    {
-
-        audioSource.PlayOneShot(attackEnemySound);
-        Debug.Log("Attack Music");
-
-
-    }
-    public void WinSound()
-    {
-        audioSource.PlayOneShot(winSound);
-        Debug.Log("Win Sound");
-    }
-    public void RunDoorSound()
-    {
-        audioSource.PlayOneShot(runDoorSound);
-        Debug.Log("Run Door Sound");
+        audioSource.PlayOneShot(sounds[index]);
     }
 
 }

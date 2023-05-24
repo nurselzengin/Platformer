@@ -26,6 +26,19 @@ public class UiManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         canvas.enabled = false;
         ScoreManager.score = 0;
+        
+        if (PlayerPrefs.HasKey("Easy Mode"))
+        {
+            LevelManager.countForWin = 1;
+        }
+        if (PlayerPrefs.HasKey("Normal Mode"))
+        {
+            LevelManager.countForWin = 2;
+        }
+        if (PlayerPrefs.HasKey("Hard Mode"))
+        {
+            LevelManager.countForWin = 3;
+        }
         LevelManager.knifeStop = false;
     }
 

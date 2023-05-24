@@ -10,6 +10,7 @@ public class Knife : MonoBehaviour
     [SerializeField] ParticleSystem particle;
     [SerializeField] float destroyLimit;
     private Rigidbody2D rb;
+    [SerializeField] GameObject player;
 
     [Header("Move Speed")]
     [SerializeField] float easySpeed;
@@ -27,6 +28,12 @@ public class Knife : MonoBehaviour
 
         if (transform.position.x < destroyLimit)
             Destroy(gameObject);
+        
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Destroy(gameObject);
+        }
     }
     private void FixedUpdate()
     {

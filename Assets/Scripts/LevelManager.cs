@@ -5,12 +5,13 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     
-    //public static LevelManager instance;//singleton pattern kullan�m� respawnplayer i�in
+  
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform playerSpawnPos;
     [SerializeField] GameObject friesPrefab;
     [SerializeField] GameObject door;
     [SerializeField] GameObject RunText;
+    public static int countForWin;
 
     [Header("Knife Spawner")]
     [SerializeField] GameObject knifePrefab;
@@ -33,19 +34,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float normalSpawn;
     [SerializeField] float hardSpawn;
 
-    private SoundManager soundManager;
-
     private void Awake()
     {
-        
-        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         PlayerSpawner();
-       
-    }
+     }
     private void Start()
     {
         
-        //FriesSpawner();
         StartCoroutine(SpawnFries());
         StartCoroutine(CreateKnife());
         maxSpawn = HardenedScript.instance.HardenedLevel(maxSpawn, easySpawn, normalSpawn, hardSpawn);
@@ -57,9 +52,9 @@ public class LevelManager : MonoBehaviour
     }
     void PlayerSpawner()
     {
-        Instantiate(playerPrefab, playerSpawnPos.position, Quaternion.identity); //konumunu yani 0,0,0 pozisyonda playerim� olu�tur.
+        Instantiate(playerPrefab, playerSpawnPos.position, Quaternion.identity); //Playerin oldukten sonra yeniden yaratilmasini saglayan fonksiyon.
     }
-    public void RespawnPlayer()//bo�lu�a d���p �ld���nde yeniden olu�turuluyor player�m�z
+    public void RespawnPlayer()
     {
         Instantiate(playerPrefab, playerSpawnPos.position, Quaternion.identity);
     }
@@ -70,17 +65,17 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator SpawnFries()
     {
-        if (count == 5)
+        if (count == countForWin)
         { 
             canWin = true;
             door.SetActive(true);
             knifeStop = true;
             RunText.SetActive(true);
-            soundManager.RunDoorSound();
+            SoundManager.instance.PlayWithIndex(10);
         }
         yield return new WaitForSeconds(1.5f);
 
-        if (count < 5)
+        if (count < countForWin)
         {
             FriesSpawner();
         }
@@ -98,7 +93,7 @@ public class LevelManager : MonoBehaviour
         {
             Vector2 spawnPos = new Vector2(xSpawn, Random.Range(-spawnValues.y+1, spawnValues.y+1));
             Instantiate(knifePrefab, spawnPos, Quaternion.identity);
-            SoundManager.instance.PlayWithIndex(6);
+            SoundManager.instance.PlayWithIndex(13);
             yield return new WaitForSeconds(startSpawn);
         }
     }
