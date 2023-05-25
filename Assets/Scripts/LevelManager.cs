@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject door;
     [SerializeField] GameObject RunText;
     public static int countForWin;
+    public static int level;
 
     [Header("Knife Spawner")]
     [SerializeField] GameObject knifePrefab;
@@ -36,11 +37,11 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        PlayerSpawner();
-     }
+        SpawnPlayer();
+    }
     private void Start()
     {
-        
+        level++;
         StartCoroutine(SpawnFries());
         StartCoroutine(CreateKnife());
         maxSpawn = HardenedScript.instance.HardenedLevel(maxSpawn, easySpawn, normalSpawn, hardSpawn);
@@ -69,7 +70,7 @@ public class LevelManager : MonoBehaviour
         { 
             canWin = true;
             door.SetActive(true);
-            knifeStop = true;
+            knifeStop = false;
             RunText.SetActive(true);
             SoundManager.instance.PlayWithIndex(10);
         }
@@ -96,6 +97,17 @@ public class LevelManager : MonoBehaviour
             SoundManager.instance.PlayWithIndex(13);
             yield return new WaitForSeconds(startSpawn);
         }
+    }
+
+    void SpawnPlayer()
+    { 
+       StartCoroutine(PlayerSpawnerWait());
+    }
+
+    IEnumerator PlayerSpawnerWait()
+    {
+        yield return new WaitForSeconds(1);
+        PlayerSpawner();
     }
     
 }

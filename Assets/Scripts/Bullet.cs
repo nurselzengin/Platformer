@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] ParticleSystem playerParticle;
     [SerializeField] ParticleSystem playerHitParticle;
     [SerializeField] GameObject player;
+    
    
     
     void Awake()
@@ -31,8 +32,7 @@ public class Bullet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-       
-        rb.velocity = -transform.right * bulletSpeed;
+          rb.velocity = -transform.right * bulletSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
