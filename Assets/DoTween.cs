@@ -12,7 +12,7 @@ public class DoTween : MonoBehaviour
 
     void Start()
     {
-        levelText.text = "Level" + LevelManager.level;
+        levelText.text = "Level" + CountManager.instance.level;
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(transform.DOScale(new Vector3(2, 2, 1), 1f));
         mySequence.Append(transform.DOScale(new Vector3(0, 0, 1), 1f));

@@ -35,7 +35,7 @@ public class Jump : MonoBehaviour
         Gravity();
         JumpAction();
     }
-    private bool IsGrounded() 
+    public bool IsGrounded() 
     {
         return Physics2D.OverlapCircle(feetPos.position, radius, layerMask);
     }

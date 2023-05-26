@@ -29,15 +29,15 @@ public class UiManager : MonoBehaviour
         
         if (PlayerPrefs.HasKey("Easy Mode"))
         {
-            LevelManager.countForWin = 1;
+           CountManager.instance.countForWin = 1;
         }
         if (PlayerPrefs.HasKey("Normal Mode"))
         {
-            LevelManager.countForWin = 2;
+            CountManager.instance.countForWin = 2;
         }
         if (PlayerPrefs.HasKey("Hard Mode"))
         {
-            LevelManager.countForWin = 3;
+            CountManager.instance.countForWin = 3;
         }
         LevelManager.knifeStop = false;
     }

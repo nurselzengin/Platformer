@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class Movement : MonoBehaviour
     PlayerHealth playerHealth;
     private float horizontalMove;
     [SerializeField] Animator anim;
+    public static bool blocking;
+    Jump jump;
 
 
     public static bool canDash = true;
@@ -32,19 +35,22 @@ public class Movement : MonoBehaviour
         uiManager = GameObject.Find("UI Manager").GetComponent<UiManager>();
         playerHealth = GameObject.Find("Level Manager").GetComponent<PlayerHealth>();
         anim = GetComponent<Animator>();
+        jump = GetComponent<Jump>();
     }
     void Start()
     {
-        Cancel();
+       
         rb = GetComponent<Rigidbody2D>(); 
         tr = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        Cancel();
     }
     void Update()
     {
         MovementAction();
         PlayerDestroyer();
         StartDash();
+        Block();
     }
 
     void MovementAction()
@@ -59,6 +65,10 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(horizontalMove * moveSpeed, rb.velocity.y);
             SpriteFlip(horizontalMove);
             anim.SetFloat("Move", Mathf.Abs(horizontalMove));
+        }
+        else
+        {
+            rb.velocity = new Vector2(0,rb.velocity.y);
         }
         
     }
@@ -118,6 +128,7 @@ public class Movement : MonoBehaviour
         isDashing = false;
         dashed = false;
         Jump.fallGravityScale = 15;
+        LevelManager.canMove = true;
     }
 
     void StartDash()
@@ -128,5 +139,33 @@ public class Movement : MonoBehaviour
             SoundManager.instance.PlayWithIndex(14);
         }
 
+    }
+    public void Die()
+    {
+        Destroy(gameObject);
+        PlayerHealth.instance.Lives();
+        Cancel();
+        if (DelayScript.instance.delayTime)
+        { 
+            DelayScript.instance.StartDelayTime();
+        }
+    }
+
+    void Block()
+    {
+        if (Input.GetMouseButton(0) && jump.IsGrounded())
+        {
+            anim.SetBool("Shield", true);
+            blocking = true;
+            rb.velocity = Vector2.zero;
+            LevelManager.canMove = false;
+            
+        }
+        else if (Input.GetMouseButtonUp(0) && !jump.IsGrounded())
+        {
+            anim.SetBool("Shield", false);
+            blocking = false;
+            LevelManager.canMove = true;
+        }
     }
 }

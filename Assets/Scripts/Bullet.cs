@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if(player == null)
+        if(player == null || CountManager.instance.EndCount())
         {
             Destroy(gameObject);
         }
@@ -38,23 +38,18 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
-        if(collision.gameObject.CompareTag("Ground"))
-            Instantiate(groundParticle, transform.position, Quaternion.identity);
-        
-        
-        if (collision.gameObject.CompareTag("Player"))
+     
+        if (collision.gameObject.CompareTag("Player") && LevelManager.canMove)
         {
-            Destroy(collision.gameObject);
-            Movement.Cancel();
-            health.Lives();
+            Animator anim = collision.gameObject.GetComponent<Animator>();
+            LevelManager.canMove = false;
+            anim.SetTrigger("Die");
+  
             Instantiate(playerParticle, transform.position, Quaternion.identity);
             Instantiate(playerHitParticle, transform.position, Quaternion.identity);
 
-            if (delay.delayTime)
-            {
-                delay.StartDelayTime();
-            }
-
         }
+        if (collision.gameObject.CompareTag("Ground"))
+            Instantiate(groundParticle, transform.position, Quaternion.identity);
     }
 }

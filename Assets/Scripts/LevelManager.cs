@@ -11,8 +11,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject friesPrefab;
     [SerializeField] GameObject door;
     [SerializeField] GameObject RunText;
-    public static int countForWin;
-    public static int level;
+    
 
     [Header("Knife Spawner")]
     [SerializeField] GameObject knifePrefab;
@@ -23,6 +22,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float startWait;
     public static bool knifeStop;
     private float xSpawn = 10f;
+    
 
     [Header("Bool")]
   
@@ -35,13 +35,31 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float normalSpawn;
     [SerializeField] float hardSpawn;
 
+    #region Singleton
+    public static LevelManager instance;
+
     private void Awake()
     {
+        
+        if (instance == null)
+        {
+
+            instance = this;
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         SpawnPlayer();
     }
+    #endregion
+  
+    
     private void Start()
     {
-        level++;
+       
         StartCoroutine(SpawnFries());
         StartCoroutine(CreateKnife());
         maxSpawn = HardenedScript.instance.HardenedLevel(maxSpawn, easySpawn, normalSpawn, hardSpawn);
@@ -66,7 +84,7 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator SpawnFries()
     {
-        if (count == countForWin)
+        if (count == CountManager.instance.countForWin)
         { 
             canWin = true;
             door.SetActive(true);
@@ -76,7 +94,7 @@ public class LevelManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1.5f);
 
-        if (count < countForWin)
+        if (count < CountManager.instance.countForWin)
         {
             FriesSpawner();
         }

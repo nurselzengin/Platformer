@@ -25,15 +25,13 @@ public class Knife : MonoBehaviour
 
     void Update()
     {
-
-        if (transform.position.x < destroyLimit)
-            Destroy(gameObject);
-        
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
+        if (player == null || CountManager.instance.EndCount())
         {
             Destroy(gameObject);
         }
+        if (transform.position.x < destroyLimit)
+            Destroy(gameObject);
     }
     private void FixedUpdate()
     {
@@ -44,18 +42,21 @@ public class Knife : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && LevelManager.canMove)
         {
             Debug.Log(collision.gameObject.name);
             SoundManager.instance.PlayWithIndex(13);
             Instantiate(particle, collision.gameObject.transform.position, Quaternion.identity);
-            Destroy(collision.gameObject);
-            PlayerHealth.instance.Lives();
-            if (DelayScript.instance.delayTime)
-            {
-                DelayScript.instance.StartDelayTime();
-            }
-            Movement.Cancel();
+            Animator anim = collision.gameObject.GetComponent<Animator>();
+            anim.SetTrigger("Die");
+            LevelManager.canMove = false;
+            //Destroy(collision.gameObject);
+            //PlayerHealth.instance.Lives();
+            //if (DelayScript.instance.delayTime)
+            //{
+            //    DelayScript.instance.StartDelayTime();
+            //}
+            //Movement.Cancel();
             Destroy(gameObject);
         }
 
