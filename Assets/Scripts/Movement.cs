@@ -161,7 +161,7 @@ public class Movement : MonoBehaviour
             LevelManager.canMove = false;
             
         }
-        else if (Input.GetMouseButtonUp(0) && !jump.IsGrounded())
+        else if (Input.GetMouseButtonUp(0) && jump.IsGrounded())
         {
             anim.SetBool("Shield", false);
             blocking = false;
