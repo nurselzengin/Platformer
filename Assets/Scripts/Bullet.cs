@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] ParticleSystem groundParticle;
     [SerializeField] ParticleSystem playerParticle;
     [SerializeField] ParticleSystem playerHitParticle;
+    [SerializeField] ParticleSystem playerBlockParticle;
+
     [SerializeField] GameObject player;
     
    
@@ -39,7 +41,7 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
      
-        if (collision.gameObject.CompareTag("Player") && LevelManager.canMove)
+        if (collision.gameObject.CompareTag("Player") && LevelManager.canMove && !Movement.blocking)
         {
             Animator anim = collision.gameObject.GetComponent<Animator>();
             LevelManager.canMove = false;
@@ -47,6 +49,11 @@ public class Bullet : MonoBehaviour
   
             Instantiate(playerParticle, transform.position, Quaternion.identity);
             Instantiate(playerHitParticle, transform.position, Quaternion.identity);
+
+        }
+        else if(collision.gameObject.CompareTag("Player") && Movement.blocking)
+        {
+            Instantiate(playerBlockParticle, transform.position, Quaternion.identity);
 
         }
         if (collision.gameObject.CompareTag("Ground"))

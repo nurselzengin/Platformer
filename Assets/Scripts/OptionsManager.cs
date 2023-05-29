@@ -11,7 +11,7 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] Toggle Windowed;
     [SerializeField] Slider volumeSlider;
     [SerializeField] TextMeshProUGUI volumeText;
-
+   
     private void Awake()
     {
         if(!PlayerPrefs.HasKey("Mute"))
@@ -94,6 +94,6 @@ public class OptionsManager : MonoBehaviour
         float volumeValue = volumeSlider.value;
         PlayerPrefs.SetFloat("Volume", volumeValue);
     }
-
+    
 
 }

@@ -20,6 +20,8 @@ public class Movement : MonoBehaviour
     [SerializeField] Animator anim;
     public static bool blocking;
     Jump jump;
+    public static bool died;
+
 
 
     public static bool canDash = true;
@@ -129,6 +131,7 @@ public class Movement : MonoBehaviour
         dashed = false;
         Jump.fallGravityScale = 15;
         LevelManager.canMove = true;
+        died = false;
     }
 
     void StartDash()
@@ -138,6 +141,7 @@ public class Movement : MonoBehaviour
             StartCoroutine(Dash());
             SoundManager.instance.PlayWithIndex(14);
         }
+        
 
     }
     public void Die()
@@ -153,7 +157,7 @@ public class Movement : MonoBehaviour
 
     void Block()
     {
-        if (Input.GetMouseButton(0) && jump.IsGrounded())
+        if (Input.GetMouseButton(0) && jump.IsGrounded() && !died)
         {
             anim.SetBool("Shield", true);
             blocking = true;
@@ -161,11 +165,16 @@ public class Movement : MonoBehaviour
             LevelManager.canMove = false;
             
         }
-        else if (Input.GetMouseButtonUp(0) && jump.IsGrounded())
+        else if (Input.GetMouseButtonUp(0) && jump.IsGrounded() && !died)
         {
             anim.SetBool("Shield", false);
             blocking = false;
             LevelManager.canMove = true;
         }
+        
+    }
+    public void Died()
+    {
+        died = true;
     }
 }
